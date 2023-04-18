@@ -1,7 +1,7 @@
 ---
-title: Interest Protocol Discord Bot
-description: Swap, Lend, Trade and Farm on the Next Generation DeFi protocol ⚡|
-tags:
+Title: Interest Protocol Discord Bot
+Description: Swap, Lend, Trade and Farm on the Next Generation DeFi protocol ⚡|
+Tags:
   - discord.js
   - typescript
 ---
