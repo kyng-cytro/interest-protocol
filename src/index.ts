@@ -13,7 +13,7 @@ import type { SlashCommand } from "./types";
 import dotenv from "dotenv";
 dotenv.config();
 import testCommand from "./slashCommands/ping";
-import getStarted from "./slashCommands/getStarted";
+import getStartedCommand from "./slashCommands/getStartedCommand";
 
 const token = process.env.DISCORD_TOKEN;
 const client_id = process.env.CLIENT_ID;
@@ -29,11 +29,11 @@ client.once(Events.ClientReady, async (c) => {
 const slashCommands = new Collection<string, SlashCommand>();
 
 slashCommands.set(testCommand.command.name, testCommand);
-slashCommands.set(getStarted.command.name, getStarted);
+slashCommands.set(getStartedCommand.command.name, getStartedCommand);
 
 const slashCommandsArr: SlashCommandBuilder[] = [
   testCommand.command,
-  getStarted.command,
+  getStartedCommand.command,
 ];
 
 const rest = new REST({ version: "10" }).setToken(token);
