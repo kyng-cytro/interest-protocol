@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../types";
 import prisma from "../utils/prisma";
 import { findById } from "../utils/zealy";
@@ -8,6 +8,9 @@ const getStartedCommand: SlashCommand = {
     .setName("get-started")
     .setDescription("Start earning from interest protocol"),
   execute: async (interaction) => {
+    
+    await interaction.deferReply({ ephemeral: true });
+
     const discordId = interaction.user.id;
 
     const username = interaction.user.username;
@@ -15,25 +18,41 @@ const getStartedCommand: SlashCommand = {
     const user = await prisma.user.findUnique({ where: { discordId } });
 
     if (user) {
-      return interaction.reply({
-        content: `Hi ${username}, You are already a part of this event`,
-        ephemeral: true,
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setAuthor({ name: "⚠️  Error" })
+            .setDescription(
+              `Hi ${username},
+You are already a part of this event`
+            ),
+        ],
       });
     }
 
-    const { error, message, zealy_data } = await findById(discordId);
+    const { error, zealy_data } = await findById(discordId);
 
     if (error) {
-      return interaction.reply({
-        content: `An error occuring getting you started. please make sure you have joined the zealy community by completing at least one task`,
-        ephemeral: true,
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setAuthor({ name: "⚠️  Error" })
+            .setDescription(
+              `Please make sure you have joined the zealy community by completing at least one task`
+            ),
+        ],
       });
     }
 
     if (zealy_data == null) {
-      return interaction.reply({
-        content: `An error occuring getting you started. please make sure you have joined the zealy community by completing at least one task`,
-        ephemeral: true,
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setAuthor({ name: "⚠️  Error" })
+            .setDescription(
+              `Please make sure you have joined the zealy community by completing at least one task`
+            ),
+        ],
       });
     }
 
@@ -49,9 +68,13 @@ const getStartedCommand: SlashCommand = {
       },
     });
 
-    return interaction.reply({
-      content: `Hi ${username}, Welcome to this event. use the points command to see your earnings.`,
-      ephemeral: true,
+    return interaction.editReply({
+      embeds: [
+        new EmbedBuilder().setAuthor({ name: "🎉 Welcome" }).setDescription(
+          `Points earned on zealy will now count toward your IPX earning.
+Use /points to view your earnings`
+        ),
+      ],
     });
   },
 };
