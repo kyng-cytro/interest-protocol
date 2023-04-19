@@ -12,6 +12,10 @@ import {
 import type { SlashCommand } from "./types";
 import testCommand from "./slashCommands/ping";
 import getStartedCommand from "./slashCommands/getStarted";
+import pointsCommand from "./slashCommands/points";
+import userPointCommand from "./slashCommands/getUserPoint";
+import leaderBoardCommand from "./slashCommands/leaderBoard";
+
 import enviromentVars from "./config";
 
 const token = enviromentVars.DISCORD_TOKEN;
@@ -30,10 +34,16 @@ const slashCommands = new Collection<string, SlashCommand>();
 
 slashCommands.set(testCommand.command.name, testCommand);
 slashCommands.set(getStartedCommand.command.name, getStartedCommand);
+slashCommands.set(pointsCommand.command.name, pointsCommand);
+slashCommands.set(userPointCommand.command.name, userPointCommand);
+slashCommands.set(leaderBoardCommand.command.name, leaderBoardCommand);
 
 const slashCommandsArr: SlashCommandBuilder[] = [
   testCommand.command,
   getStartedCommand.command,
+  pointsCommand.command,
+  userPointCommand.command,
+  leaderBoardCommand.command,
 ];
 
 const rest = new REST({ version: "10" }).setToken(token);
