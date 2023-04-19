@@ -2,21 +2,25 @@ import { SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../types";
 import prisma from "../utils/prisma";
 import { findById } from "../utils/zealy";
+import { formatEarning } from "../utils/helper";
 
-const getStartedCommand: SlashCommand = {
+const pointsCommand: SlashCommand = {
   command: new SlashCommandBuilder()
-    .setName("get-started")
-    .setDescription("Start earning from interest protocol"),
+    .setName("points")
+    .setDescription("Check your earned points"),
+
   execute: async (interaction) => {
     const discordId = interaction.user.id;
 
     const username = interaction.user.username;
 
-    const user = await prisma.user.findUnique({ where: { discordId } });
+    const user = await prisma.user.findUnique({
+      where: { discordId },
+    });
 
-    if (user) {
+    if (!user) {
       return interaction.reply({
-        content: `Hi ${username}, You are already a part of this event`,
+        content: `Hi ${username}, You don't seem to be registered. Have you ran the get-started command?`,
         ephemeral: true,
       });
     }
@@ -37,23 +41,31 @@ const getStartedCommand: SlashCommand = {
       });
     }
 
-    await prisma.user.create({
-      data: {
+    const updated_user = await prisma.user.update({
+      where: {
         discordId,
-        name: zealy_data.name,
-        discordHandle: zealy_data.discordHandle,
-        prevXp: zealy_data.xp,
+      },
+      data: {
         currentXp: zealy_data.xp,
         level: zealy_data.level,
         rank: zealy_data.rank,
       },
     });
 
+    const {
+      booster,
+      currentXp,
+      startingXp,
+      earnedXp,
+      ipx_value,
+      ipx_with_booster,
+    } = formatEarning(updated_user);
+
     return interaction.reply({
-      content: `Hi ${username}, Welcome to this event. use the points command to see your earnings.`,
+      content: `Hi, You have earned a total of: ${ipx_with_booster}IPX. Your current booster: ${booster}x, Earned IPX without booster: ${ipx_value}IPX, total XP earned during the event: ${earnedXp}XP, Total XP earned: ${currentXp}XP, Total XP before event: ${startingXp}XP`,
       ephemeral: true,
     });
   },
 };
 
-export default getStartedCommand;
+export default pointsCommand;
