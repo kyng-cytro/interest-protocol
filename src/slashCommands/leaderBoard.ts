@@ -1,4 +1,8 @@
-import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
+import {
+  EmbedBuilder,
+  PermissionFlagsBits,
+  SlashCommandBuilder,
+} from "discord.js";
 import { SlashCommand } from "../types";
 import prisma from "../utils/prisma";
 import { findById } from "../utils/zealy";
@@ -17,6 +21,9 @@ const leaderBoardCommand: SlashCommand = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
   execute: async (interaction) => {
+
+    await interaction.deferReply({ ephemeral: true });
+
     const count = await prisma.user.count();
 
     const limit = (interaction.options.get("limit")?.value as number) ?? count;
@@ -27,7 +34,7 @@ const leaderBoardCommand: SlashCommand = {
     });
 
     const data = await Promise.all(
-      all_users.map(async (user) => {
+      [...all_users, ...all_users,...all_users].map(async (user, i) => {
         const { zealy_data } = await findById(user.discordId);
 
         const updated = await prisma.user.update({
@@ -41,13 +48,16 @@ const leaderBoardCommand: SlashCommand = {
 
         const { ipx_with_booster } = formatEarning(updated);
 
-        return { username: user.name, ipx_with_booster };
+        return `${i + 1}. ${user.name}: ${ipx_with_booster} IPX`;
       })
     );
 
-    return interaction.reply({
-      content: `${JSON.stringify(data)}`,
-      ephemeral: true,
+    const embed = new EmbedBuilder()
+      .setAuthor({ name: "🏆 Leaderboard" })
+      .setDescription(`${data.join('\n')}`);
+
+    return interaction.editReply({
+      embeds: [embed],
     });
   },
 };

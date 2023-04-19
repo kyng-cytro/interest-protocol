@@ -1,4 +1,8 @@
-import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
+import {
+  EmbedBuilder,
+  PermissionFlagsBits,
+  SlashCommandBuilder,
+} from "discord.js";
 import { SlashCommand } from "../types";
 import prisma from "../utils/prisma";
 import { findById } from "../utils/zealy";
@@ -17,6 +21,9 @@ const userPointCommand: SlashCommand = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
   execute: async (interaction) => {
+
+    await interaction.deferReply({ ephemeral: true });
+
     const target_user = interaction.options.getUser("user");
 
     const discordId = target_user.id;
@@ -28,25 +35,39 @@ const userPointCommand: SlashCommand = {
     });
 
     if (!user) {
-      return interaction.reply({
-        content: `Hi ${username}, This user does't seem to be registered. Have you ran the get-started command?`,
-        ephemeral: true,
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder().setAuthor({ name: "⚠️  Error" }).setDescription(
+            `Hi ${username},
+This user does't seem to be registered.`
+          ),
+        ],
       });
     }
 
     const { error, zealy_data } = await findById(discordId);
 
     if (error) {
-      return interaction.reply({
-        content: `An error occuring getting you started. please make sure this user has joined the zealy community by completing at least one task`,
-        ephemeral: true,
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setAuthor({ name: "⚠️  Error" })
+            .setDescription(
+              `Please make sure this user has joined the zealy community by completing at least one task`
+            ),
+        ],
       });
     }
 
     if (zealy_data == null) {
-      return interaction.reply({
-        content: `An error occuring getting you started. please make sure this user has joined the zealy community by completing at least one task`,
-        ephemeral: true,
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setAuthor({ name: "⚠️  Error" })
+            .setDescription(
+              `Please make sure this user has joined the zealy community by completing at least one task`
+            ),
+        ],
       });
     }
 
@@ -64,15 +85,20 @@ const userPointCommand: SlashCommand = {
     const {
       booster,
       currentXp,
-      startingXp,
       earnedXp,
-      ipx_value,
       ipx_with_booster,
     } = formatEarning(updated_user);
 
-    return interaction.reply({
-      content: `Hi ${username}, This user has earned a total of: ${ipx_with_booster}IPX. Thier current booster: ${booster}x, Earned IPX without booster: ${ipx_value}IPX, Total XP earned during the event: ${earnedXp}XP, Total XP earned: ${currentXp}XP, Total XP before event: ${startingXp}XP`,
-      ephemeral: true,
+    return interaction.editReply({
+      embeds: [
+        new EmbedBuilder().setAuthor({ name: `💸 ${user.name} Earnings` }).setDescription(
+          `Total Earnings: ${ipx_with_booster} IPX
+Current Booster: ${booster}x
+XP Earned: ${earnedXp} XP
+Total XP: ${currentXp} XP
+`
+        ),
+      ],
     });
   },
 };
