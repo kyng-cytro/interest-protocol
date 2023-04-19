@@ -2,7 +2,7 @@ import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../types";
 import prisma from "../utils/prisma";
 import { findById } from "../utils/zealy";
-import { summariseEarning } from "../utils/helper";
+import { formatEarning } from "../utils/helper";
 
 const leaderBoardCommand: SlashCommand = {
   command: new SlashCommandBuilder()
@@ -39,9 +39,9 @@ const leaderBoardCommand: SlashCommand = {
           },
         });
 
-        const earnings = summariseEarning(updated);
+        const { ipx_with_booster } = formatEarning(updated);
 
-        return { username: user.name, earnings };
+        return { username: user.name, ipx_with_booster };
       })
     );
 

@@ -26,22 +26,6 @@ export const formatEarning = (user: User) => {
   };
 };
 
-export const summariseEarning = (user: User) => {
-  const booster = getBooster(user.currentXp);
-
-  const currentXp = user.currentXp;
-
-  const startingXp = user.prevXp;
-
-  const earnedXp = currentXp - startingXp;
-
-  const ipx_value = earnedXp * rate;
-
-  const ipx_with_booster = ipx_value * booster;
-
-  return ipx_with_booster;
-};
-
 export const getBooster = (xp: number): number => {
   if (xp < 5000) return 0;
   if (xp < 10000) return 1.2;
