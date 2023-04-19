@@ -1,4 +1,7 @@
 import { User } from "@prisma/client";
+import enviromentVars from "../config";
+
+const rate = Number(enviromentVars.CONVERSION_RATE);
 
 export const formatEarning = (user: User) => {
   const booster = getBooster(user.currentXp);
@@ -9,8 +12,7 @@ export const formatEarning = (user: User) => {
 
   const earnedXp = currentXp - startingXp;
 
-  // TODO: use enviromental varibale here
-  const ipx_value = earnedXp * 0.1;
+  const ipx_value = earnedXp * rate;
 
   const ipx_with_booster = ipx_value * booster;
 
@@ -33,8 +35,7 @@ export const summariseEarning = (user: User) => {
 
   const earnedXp = currentXp - startingXp;
 
-  // TODO: use enviromental varibale here
-  const ipx_value = earnedXp * 0.1;
+  const ipx_value = earnedXp * rate;
 
   const ipx_with_booster = ipx_value * booster;
 

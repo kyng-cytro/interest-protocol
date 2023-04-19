@@ -8,6 +8,7 @@ const enviromentVarsSchema = z.object({
   CLIENT_ID: z.string(),
   ZEALY_API_KEY: z.string(),
   ZEALY_SUBDOMAIN: z.string(),
+  CONVERSION_RATE: z.string(),
 });
 
 const enviromentVars = enviromentVarsSchema.parse(process.env);
