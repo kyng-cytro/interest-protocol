@@ -10,13 +10,13 @@ import {
 } from "discord.js";
 
 import type { SlashCommand } from "./types";
-import dotenv from "dotenv";
-dotenv.config();
 import testCommand from "./slashCommands/ping";
-import getStartedCommand from "./slashCommands/getStartedCommand";
+import getStartedCommand from "./slashCommands/getStarted";
+import enviromentVars from "./config";
 
-const token = process.env.DISCORD_TOKEN;
-const client_id = process.env.CLIENT_ID;
+const token = enviromentVars.DISCORD_TOKEN;
+const client_id = enviromentVars.CLIENT_ID;
+
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent],
   partials: [Partials.Channel],
