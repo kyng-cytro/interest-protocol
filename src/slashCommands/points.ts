@@ -24,10 +24,13 @@ const pointsCommand: SlashCommand = {
     if (!user) {
       return interaction.editReply({
         embeds: [
-          new EmbedBuilder().setAuthor({ name: "⚠️  Error" }).setDescription(
-            `Hi ${username},
+          new EmbedBuilder()
+            .setColor(0x99bbff)
+            .setAuthor({ name: "⚠️  Error" })
+            .setDescription(
+              `Hi ${username},
 You don't seem to be registered. Have you ran the get-started command?`
-          ),
+            ),
         ],
       });
     }
@@ -38,6 +41,7 @@ You don't seem to be registered. Have you ran the get-started command?`
       return interaction.editReply({
         embeds: [
           new EmbedBuilder()
+            .setColor(0x99bbff)
             .setAuthor({ name: "⚠️  Error" })
             .setDescription(
               `Please make sure you have joined the zealy community by completing at least one task`
@@ -50,6 +54,7 @@ You don't seem to be registered. Have you ran the get-started command?`
       return interaction.editReply({
         embeds: [
           new EmbedBuilder()
+            .setColor(0x99bbff)
             .setAuthor({ name: "⚠️  Error" })
             .setDescription(
               `Please make sure you have joined the zealy community by completing at least one task`
@@ -75,6 +80,7 @@ You don't seem to be registered. Have you ran the get-started command?`
     return interaction.editReply({
       embeds: [
         new EmbedBuilder()
+          .setColor(0x99bbff)
           .setAuthor({ name: "💸 Your Earnings" })
           .setDescription(
             `Hi ${username},

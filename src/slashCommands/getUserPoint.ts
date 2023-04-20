@@ -37,7 +37,7 @@ const userPointCommand: SlashCommand = {
     if (!user) {
       return interaction.editReply({
         embeds: [
-          new EmbedBuilder().setAuthor({ name: "⚠️  Error" }).setDescription(
+          new EmbedBuilder().setColor(0x99BBFF).setAuthor({ name: "⚠️  Error" }).setDescription(
             `Hi ${username},
 This user does't seem to be registered.`
           ),
@@ -63,6 +63,7 @@ This user does't seem to be registered.`
       return interaction.editReply({
         embeds: [
           new EmbedBuilder()
+          .setColor(0x99BBFF)
             .setAuthor({ name: "⚠️  Error" })
             .setDescription(
               `Please make sure this user has joined the zealy community by completing at least one task`
@@ -88,6 +89,7 @@ This user does't seem to be registered.`
     return interaction.editReply({
       embeds: [
         new EmbedBuilder()
+        .setColor(0x99BBFF)
           .setAuthor({ name: `💸 ${user.name} Earnings` })
           .setDescription(
             `Total Earnings: ${ipx_with_booster} IPX

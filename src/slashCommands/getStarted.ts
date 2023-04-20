@@ -20,7 +20,7 @@ const getStartedCommand: SlashCommand = {
     if (user) {
       return interaction.editReply({
         embeds: [
-          new EmbedBuilder().setAuthor({ name: "⚠️  Error" }).setDescription(
+          new EmbedBuilder().setColor(0x99BBFF).setAuthor({ name: "⚠️  Error" }).setDescription(
             `Hi ${username},
 You are already a part of this event`
           ),
@@ -34,6 +34,7 @@ You are already a part of this event`
       return interaction.editReply({
         embeds: [
           new EmbedBuilder()
+          .setColor(0x99BBFF)
             .setAuthor({ name: "⚠️  Error" })
             .setDescription(
               `Please make sure you have joined the zealy community by completing at least one task`
@@ -46,6 +47,7 @@ You are already a part of this event`
       return interaction.editReply({
         embeds: [
           new EmbedBuilder()
+          .setColor(0x99BBFF)
             .setAuthor({ name: "⚠️  Error" })
             .setDescription(
               `Please make sure you have joined the zealy community by completing at least one task`
@@ -68,7 +70,7 @@ You are already a part of this event`
 
     return interaction.editReply({
       embeds: [
-        new EmbedBuilder().setAuthor({ name: "🎉 Welcome" }).setDescription(
+        new EmbedBuilder().setColor(0x99BBFF).setAuthor({ name: "🎉 Welcome" }).setDescription(
           `Points earned on zealy will now count toward your IPX earning.
 Use /points to view your earnings`
         ),
