@@ -9,6 +9,7 @@ import { findById } from "../utils/zealy";
 import { formatEarning } from "../utils/helper";
 
 const leaderBoardCommand: SlashCommand = {
+  cooldown: 30,
   command: new SlashCommandBuilder()
     .setName("leaderboard")
     .setDescription("Summary of all users earning")
@@ -21,7 +22,6 @@ const leaderBoardCommand: SlashCommand = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
   execute: async (interaction) => {
-
     await interaction.deferReply({ ephemeral: true });
 
     const count = await prisma.user.count();
@@ -34,7 +34,7 @@ const leaderBoardCommand: SlashCommand = {
     });
 
     const data = await Promise.all(
-      [...all_users, ...all_users,...all_users].map(async (user, i) => {
+      all_users.map(async (user, i) => {
         const { zealy_data } = await findById(user.discordId);
 
         const updated = await prisma.user.update({
@@ -54,7 +54,7 @@ const leaderBoardCommand: SlashCommand = {
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: "🏆 Leaderboard" })
-      .setDescription(`${data.join('\n')}`);
+      .setDescription(`${data.join("\n")}`);
 
     return interaction.editReply({
       embeds: [embed],
