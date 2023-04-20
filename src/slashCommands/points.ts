@@ -62,6 +62,7 @@ You don't seem to be registered. Have you ran the get-started command?`
         discordId,
       },
       data: {
+        name: zealy_data.name,
         currentXp: zealy_data.xp,
         level: zealy_data.level,
         rank: zealy_data.rank,
