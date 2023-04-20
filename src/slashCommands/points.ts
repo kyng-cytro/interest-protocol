@@ -2,7 +2,7 @@ import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../types";
 import prisma from "../utils/prisma";
 import { findById } from "../utils/zealy";
-import { formatEarning } from "../utils/helper";
+import { formatEarning, makeEmbed } from "../utils/helper";
 
 const pointsCommand: SlashCommand = {
   cooldown: 30,
@@ -24,13 +24,11 @@ const pointsCommand: SlashCommand = {
     if (!user) {
       return interaction.editReply({
         embeds: [
-          new EmbedBuilder()
-            .setColor(0x99bbff)
-            .setAuthor({ name: "⚠️  Error" })
-            .setDescription(
-              `Hi ${username},
+          makeEmbed(
+            "⚠️  Error",
+            `Hi ${username},
 You don't seem to be registered. Have you ran the get-started command?`
-            ),
+          ),
         ],
       });
     }
@@ -40,12 +38,10 @@ You don't seem to be registered. Have you ran the get-started command?`
     if (error) {
       return interaction.editReply({
         embeds: [
-          new EmbedBuilder()
-            .setColor(0x99bbff)
-            .setAuthor({ name: "⚠️  Error" })
-            .setDescription(
-              `Please make sure you have joined the zealy community by completing at least one task`
-            ),
+          makeEmbed(
+            "⚠️  Error",
+            `Please make sure you have joined the zealy community by completing at least one task`
+          ),
         ],
       });
     }
@@ -53,12 +49,10 @@ You don't seem to be registered. Have you ran the get-started command?`
     if (zealy_data == null) {
       return interaction.editReply({
         embeds: [
-          new EmbedBuilder()
-            .setColor(0x99bbff)
-            .setAuthor({ name: "⚠️  Error" })
-            .setDescription(
-              `Please make sure you have joined the zealy community by completing at least one task`
-            ),
+          makeEmbed(
+            "⚠️  Error",
+            `Please make sure you have joined the zealy community by completing at least one task`
+          ),
         ],
       });
     }
@@ -79,18 +73,16 @@ You don't seem to be registered. Have you ran the get-started command?`
 
     return interaction.editReply({
       embeds: [
-        new EmbedBuilder()
-          .setColor(0x99bbff)
-          .setAuthor({ name: "💸 Your Earnings" })
-          .setDescription(
-            `Hi ${username},
+        makeEmbed(
+          "💸 Your Earnings",
+          `Hi ${username},
 
 Total Earnings: ${ipx_with_booster} IPX
 Current Booster: ${booster}x
 XP Earned: ${earnedXp} XP
 Total XP: ${currentXp} XP
 `
-          ),
+        ),
       ],
     });
   },
