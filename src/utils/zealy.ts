@@ -1,6 +1,6 @@
 import { z } from "zod";
 import fetch from "node-fetch";
-import enviromentVars from "../../src/config";
+import enviromentVars from "../config";
 
 const api_key = enviromentVars.ZEALY_API_KEY;
 
