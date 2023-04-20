@@ -9,7 +9,6 @@ const getStartedCommand: SlashCommand = {
     .setName("get-started")
     .setDescription("Start earning from interest protocol"),
   execute: async (interaction) => {
-    
     await interaction.deferReply({ ephemeral: true });
 
     const discordId = interaction.user.id;
@@ -21,12 +20,10 @@ const getStartedCommand: SlashCommand = {
     if (user) {
       return interaction.editReply({
         embeds: [
-          new EmbedBuilder()
-            .setAuthor({ name: "⚠️  Error" })
-            .setDescription(
-              `Hi ${username},
+          new EmbedBuilder().setAuthor({ name: "⚠️  Error" }).setDescription(
+            `Hi ${username},
 You are already a part of this event`
-            ),
+          ),
         ],
       });
     }
