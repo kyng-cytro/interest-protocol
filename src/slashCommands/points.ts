@@ -5,6 +5,7 @@ import { findById } from "../utils/zealy";
 import { formatEarning } from "../utils/helper";
 
 const pointsCommand: SlashCommand = {
+  cooldown: 30,
   command: new SlashCommandBuilder()
     .setName("points")
     .setDescription("Check your earned points"),

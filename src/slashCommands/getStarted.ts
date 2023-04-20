@@ -4,6 +4,7 @@ import prisma from "../utils/prisma";
 import { findById } from "../utils/zealy";
 
 const getStartedCommand: SlashCommand = {
+  cooldown: 1000,
   command: new SlashCommandBuilder()
     .setName("get-started")
     .setDescription("Start earning from interest protocol"),

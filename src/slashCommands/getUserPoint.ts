@@ -9,6 +9,7 @@ import { findById } from "../utils/zealy";
 import { formatEarning } from "../utils/helper";
 
 const userPointCommand: SlashCommand = {
+  cooldown: 5,
   command: new SlashCommandBuilder()
     .setName("user-points")
     .setDescription("Get point infor for a user")
@@ -21,7 +22,6 @@ const userPointCommand: SlashCommand = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
   execute: async (interaction) => {
-
     await interaction.deferReply({ ephemeral: true });
 
     const target_user = interaction.options.getUser("user");
@@ -82,22 +82,20 @@ This user does't seem to be registered.`
       },
     });
 
-    const {
-      booster,
-      currentXp,
-      earnedXp,
-      ipx_with_booster,
-    } = formatEarning(updated_user);
+    const { booster, currentXp, earnedXp, ipx_with_booster } =
+      formatEarning(updated_user);
 
     return interaction.editReply({
       embeds: [
-        new EmbedBuilder().setAuthor({ name: `💸 ${user.name} Earnings` }).setDescription(
-          `Total Earnings: ${ipx_with_booster} IPX
+        new EmbedBuilder()
+          .setAuthor({ name: `💸 ${user.name} Earnings` })
+          .setDescription(
+            `Total Earnings: ${ipx_with_booster} IPX
 Current Booster: ${booster}x
 XP Earned: ${earnedXp} XP
 Total XP: ${currentXp} XP
 `
-        ),
+          ),
       ],
     });
   },
