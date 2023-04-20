@@ -1,4 +1,4 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../types";
 import prisma from "../utils/prisma";
 import { findById } from "../utils/zealy";
@@ -74,7 +74,7 @@ You don't seem to be registered. Have you ran the get-started command?`
     return interaction.editReply({
       embeds: [
         makeEmbed(
-          "💸 Your Earnings",
+          "💸 Your Points",
           `Hi ${username},
 
 Total Earnings: ${ipx_with_booster} IPX
