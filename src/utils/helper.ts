@@ -1,5 +1,6 @@
 import { User } from "@prisma/client";
 import enviromentVars from "../config";
+import { EmbedBuilder } from "discord.js";
 
 const rate = Number(enviromentVars.CONVERSION_RATE);
 
@@ -33,3 +34,10 @@ export const getBooster = (xp: number): number => {
   if (xp <= 25000) return 1.4;
   if (xp > 25000) return 1.5;
 };
+
+export const makeEmbed = (header: string, message: string) => {
+  return new EmbedBuilder()
+            .setColor(0x99bbff)
+            .setAuthor({ name: header })
+            .setDescription(message)
+}

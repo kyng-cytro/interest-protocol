@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import { SlashCommand } from "../types";
+import { makeEmbed } from "../utils/helper";
 
 const testCommand: SlashCommand = {
   command: new SlashCommandBuilder()
@@ -20,10 +21,16 @@ const testCommand: SlashCommand = {
 
     interaction.reply({
       embeds: [
-        new EmbedBuilder().setColor(0x99BBFF).setAuthor({ name: "Response Title" })
-          .setDescription(`👋 Hi! 
-                    Your ping: ${interaction.client.ws.ping}
-                    Your input: ${options.content}`),
+        makeEmbed(
+          "Interest Protocol",
+          `👋 Hi! 
+      //               Your ping: ${interaction.client.ws.ping}
+      //               Your input: ${options.content}`
+        ),
+        //   new EmbedBuilder().setColor(0x99BBFF).setAuthor({ name: "Response Title" })
+        //     .setDescription(`👋 Hi!
+        //               Your ping: ${interaction.client.ws.ping}
+        //               Your input: ${options.content}`),
       ],
     });
   },
