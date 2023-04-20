@@ -53,6 +53,7 @@ const leaderBoardCommand: SlashCommand = {
     );
 
     const embed = new EmbedBuilder()
+    .setColor(0x99BBFF)
       .setAuthor({ name: "🏆 Leaderboard" })
       .setDescription(`${data.join("\n")}`);
 

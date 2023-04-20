@@ -20,7 +20,7 @@ const testCommand: SlashCommand = {
 
     interaction.reply({
       embeds: [
-        new EmbedBuilder().setAuthor({ name: "Response Title" })
+        new EmbedBuilder().setColor(0x99BBFF).setAuthor({ name: "Response Title" })
           .setDescription(`👋 Hi! 
                     Your ping: ${interaction.client.ws.ping}
                     Your input: ${options.content}`),
