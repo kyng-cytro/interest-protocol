@@ -1,12 +1,8 @@
-import {
-  EmbedBuilder,
-  PermissionFlagsBits,
-  SlashCommandBuilder,
-} from "discord.js";
+import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../types";
 import prisma from "../utils/prisma";
 import { findById } from "../utils/zealy";
-import { formatEarning } from "../utils/helper";
+import { formatEarning, makeEmbed } from "../utils/helper";
 
 const userPointCommand: SlashCommand = {
   cooldown: 5,
@@ -37,13 +33,11 @@ const userPointCommand: SlashCommand = {
     if (!user) {
       return interaction.editReply({
         embeds: [
-          new EmbedBuilder()
-            .setColor(0x99bbff)
-            .setAuthor({ name: "⚠️  Error" })
-            .setDescription(
-              `Hi ${username},
+          makeEmbed(
+            "⚠️  Error",
+            `Hi ${username},
 This user does't seem to be registered.`
-            ),
+          ),
         ],
       });
     }
@@ -53,11 +47,10 @@ This user does't seem to be registered.`
     if (error) {
       return interaction.editReply({
         embeds: [
-          new EmbedBuilder()
-            .setAuthor({ name: "⚠️  Error" })
-            .setDescription(
-              `Please make sure this user has joined the zealy community by completing at least one task`
-            ),
+          makeEmbed(
+            "⚠️  Error",
+            `Please make sure this user has joined the zealy community by completing at least one task`
+          ),
         ],
       });
     }
@@ -65,12 +58,10 @@ This user does't seem to be registered.`
     if (zealy_data == null) {
       return interaction.editReply({
         embeds: [
-          new EmbedBuilder()
-            .setColor(0x99bbff)
-            .setAuthor({ name: "⚠️  Error" })
-            .setDescription(
-              `Please make sure this user has joined the zealy community by completing at least one task`
-            ),
+          makeEmbed(
+            "⚠️  Error",
+            `Please make sure this user has joined the zealy community by completing at least one task`
+          ),
         ],
       });
     }
@@ -80,6 +71,7 @@ This user does't seem to be registered.`
         discordId,
       },
       data: {
+        name: zealy_data.name,
         currentXp: zealy_data.xp,
         level: zealy_data.level,
         rank: zealy_data.rank,
@@ -91,16 +83,14 @@ This user does't seem to be registered.`
 
     return interaction.editReply({
       embeds: [
-        new EmbedBuilder()
-          .setColor(0x99bbff)
-          .setAuthor({ name: `💸 ${user.name} Points` })
-          .setDescription(
-            `Total Earnings: ${ipx_with_booster} IPX
+        makeEmbed(
+          `💸 ${user.name} Points`,
+          `Total Earnings: ${ipx_with_booster} IPX
 Current Booster: ${booster}x
 XP Earned: ${earnedXp} XP
 Total XP: ${currentXp} XP
 `
-          ),
+        ),
       ],
     });
   },

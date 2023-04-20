@@ -40,6 +40,7 @@ const leaderBoardCommand: SlashCommand = {
         const updated = await prisma.user.update({
           where: { id: user.id },
           data: {
+            name: zealy_data.name,
             currentXp: zealy_data.xp,
             level: zealy_data.level,
             rank: zealy_data.rank,
@@ -53,7 +54,7 @@ const leaderBoardCommand: SlashCommand = {
     );
 
     const embed = new EmbedBuilder()
-    .setColor(0x99BBFF)
+      .setColor(0x99bbff)
       .setAuthor({ name: "🏆 Leaderboard" })
       .setDescription(`${data.join("\n")}`);
 
