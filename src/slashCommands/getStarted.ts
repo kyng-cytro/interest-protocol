@@ -1,7 +1,8 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import {  SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../types";
 import prisma from "../utils/prisma";
 import { findById } from "../utils/zealy";
+import { makeEmbed } from "../utils/helper";
 
 const getStartedCommand: SlashCommand = {
   cooldown: 1000,
@@ -20,10 +21,8 @@ const getStartedCommand: SlashCommand = {
     if (user) {
       return interaction.editReply({
         embeds: [
-          new EmbedBuilder().setColor(0x99BBFF).setAuthor({ name: "⚠️  Error" }).setDescription(
-            `Hi ${username},
-You are already a part of this event`
-          ),
+         makeEmbed("⚠️  Error",`Hi ${username},
+You are already a part of this event`) 
         ],
       });
     }
@@ -33,26 +32,16 @@ You are already a part of this event`
     if (error) {
       return interaction.editReply({
         embeds: [
-          new EmbedBuilder()
-          .setColor(0x99BBFF)
-            .setAuthor({ name: "⚠️  Error" })
-            .setDescription(
-              `Please make sure you have joined the zealy community by completing at least one task`
-            ),
-        ],
+          makeEmbed("⚠️  Error", `Please make sure you have joined the zealy community by completing at least one task`)
+      ],
       });
     }
 
     if (zealy_data == null) {
       return interaction.editReply({
         embeds: [
-          new EmbedBuilder()
-          .setColor(0x99BBFF)
-            .setAuthor({ name: "⚠️  Error" })
-            .setDescription(
-              `Please make sure you have joined the zealy community by completing at least one task`
-            ),
-        ],
+          makeEmbed("⚠️  Error",`Please make sure you have joined the zealy community by completing at least one task`)
+      ],
       });
     }
 
@@ -70,11 +59,9 @@ You are already a part of this event`
 
     return interaction.editReply({
       embeds: [
-        new EmbedBuilder().setColor(0x99BBFF).setAuthor({ name: "🎉 Welcome" }).setDescription(
-          `Points earned on zealy will now count toward your IPX earning.
-Use /points to view your earnings`
-        ),
-      ],
+        makeEmbed("🎉 Welcome",`Points earned on zealy will now count toward your IPX earning.
+Use /points to view your earnings`)
+    ],
     });
   },
 };

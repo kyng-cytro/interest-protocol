@@ -28,7 +28,7 @@ export const formatEarning = (user: User) => {
 };
 
 export const getBooster = (xp: number): number => {
-  if (xp < 5000) return 0;
+  if (xp < 5000) return 1;
   if (xp < 10000) return 1.2;
   if (xp < 20000) return 1.3;
   if (xp <= 25000) return 1.4;
